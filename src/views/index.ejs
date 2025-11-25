@@ -1,0 +1,26 @@
+<%- include('partials/header', { title: 'Startseite' }) %>
+
+<h1>Produkte</h1>
+
+<% if (!products || products.length === 0) { %>
+    <p>Derzeit sind keine Produkte vorhanden.</p>
+<% } else { %>
+    <ul>
+        <% products.forEach(function (p) { %>
+            <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                <div>
+                    <a href="/products/<%= p.id %>"><strong><%= p.name %></strong></a>
+                    - <%= p.price %> CHF
+                </div>
+
+                <!-- Add to Cart Button -->
+                <form action="/cart/add" method="post" style="margin:0;">
+                    <input type="hidden" name="productId" value="<%= p.id %>">
+                    <button type="submit">In den Warenkorb</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<%- include('partials/footer') %>

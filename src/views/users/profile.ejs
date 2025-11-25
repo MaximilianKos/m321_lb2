@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+    <h1>Mein Profil</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Benutzerdaten
+                </div>
+                <div class="card-body">
+                    <form action="/users/profile" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email-Adresse</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= fullUser.email %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Neues Passwort (leer lassen zum Beibehalten)</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Neues Passwort">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Rolle</label>
+                            <input type="text" class="form-control" value="<%= fullUser.role %>" disabled readonly>
+                            <div class="form-text">Deine Rolle kann nicht geändert werden.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Daten aktualisieren</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Status
+                </div>
+                <div class="card-body">
+                    <p><strong>Benutzer-ID:</strong> <%= fullUser.id %></p>
+                    <p><strong>Status:</strong> <%= fullUser.active ? 'Aktiv' : 'Inaktiv' %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

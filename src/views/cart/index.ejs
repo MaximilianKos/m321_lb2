@@ -1,0 +1,54 @@
+<%- include('../partials/header', { title: 'Warenkorb' }) %>
+
+<h1>Mein Warenkorb</h1>
+
+<% if (!cart || cart.items.length === 0) { %>
+    <p>Ihr Warenkorb ist leer.</p>
+    <p><a href="/">Jetzt einkaufen gehen</a></p>
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Preis</th>
+                <th>Menge</th>
+                <th>Gesamt</th>
+                <th>Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% cart.items.forEach(function(item) { %>
+            <tr>
+                <td><%= item.name %></td>
+                <td><%= item.price %> CHF</td>
+                <td><%= item.quantity %></td>
+                <td><%= (item.price * item.quantity).toFixed(2) %> CHF</td>
+                <td>
+                    <form action="/cart/remove" method="post">
+                        <input type="hidden" name="productId" value="<%= item.productId %>">
+                        <button type="submit">Entfernen</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="text-align:right"><strong>Total:</strong></td>
+                <td colspan="2"><strong><%= cart.total.toFixed(2) %> CHF</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div style="margin-top: 20px; text-align: right;">
+        <% if (user) { %>
+            <form action="/cart/checkout" method="post">
+                <button type="submit" style="padding: 10px 20px; font-size: 1.2em; background-color: #28a745; color: white; border: none; cursor: pointer;">Jetzt bestellen</button>
+            </form>
+        <% } else { %>
+            <p><em>Bitte <a href="/login">einloggen</a>, um zu bestellen.</em></p>
+        <% } %>
+    </div>
+<% } %>
+
+<%- include('../partials/footer') %>

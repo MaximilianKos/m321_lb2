@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title><%= typeof title !== 'undefined' ? title : 'Onlineshop' %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <a href="/">
+            <img src="/tbz_logo.svg" alt="TBZ Logo" class="site-logo">
+        </a>
+    </div>
+    <nav>
+        <a href="/">Startseite</a>
+        <a href="/cart">Warenkorb</a>
+
+        <% if (typeof user !== 'undefined' && user) { %>
+            <a href="/orders">Meine Bestellungen</a>
+            <a href="/profile">Profil</a>
+            <% if (user.role === 'admin') { %>
+                <a href="/admin/users">Admin: Benutzer</a>
+                <a href="/admin/products">Admin: Produkte</a>
+            <% } %>
+            <form action="/auth/logout" method="post" style="display:inline;">
+                <button type="submit">Logout (<%= user.email %>)</button>
+            </form>
+        <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/register">Registrieren</a>
+        <% } %>
+    </nav>
+</header>
+<main>

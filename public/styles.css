@@ -1,0 +1,72 @@
+/* public/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.site-logo {
+    height: 40px;
+    width: auto;
+    /* Weisser Hintergrund für das Logo */
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+header nav {
+    color: #fff;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+header nav form button {
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.error {
+    color: red;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
