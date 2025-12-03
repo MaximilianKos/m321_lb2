@@ -1,6 +1,7 @@
 // src/services/orderService.js
-var uuid = require('uuid');
-var orderRepository = require('../repositories/orderRepository');
+const uuid = require('uuid');
+const orderRepository = require('../repositories/orderRepository');
+const productService = require('./productService');
 
 function listOrders(userId) {
     if (userId) {
@@ -22,6 +23,10 @@ function createOrder(userId, cartItems, totalAmount) {
         status: 'confirmed',     // Da wir keine Bezahlung haben, direkt bestätigt
         createdAt: new Date().toISOString()
     };
+
+    cartItems.forEach((item) => {
+        productService.decreaseStock(item.productId, item.quantity);
+    });
 
     return orderRepository.save(order);
 }

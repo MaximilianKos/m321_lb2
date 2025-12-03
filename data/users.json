@@ -1,15 +1,15 @@
 [
   {
     "id": "0e327938-0e33-4606-8606-8026b140671d",
-    "email": "stefan.kemper@tbz.ch",
-    "passwordHash": "$2a$10$RzBK1MHksskt63A5fiilaukRkKZlxA6EkfA/Qf6uYLHm4NeNUKngu",
+    "email": "admin@localhost",
+    "passwordHash": "$2a$10$70dnJtz5WmR0C9P.M6mmQOlAe.6RVLWKNnX7hEjOFdPdlhHeyTtl.",
     "role": "admin",
     "active": true
   },
   {
     "id": "d0af3e0d-3fa7-4688-9307-37f20b79fff5",
-    "email": "stefan.kemper@zhaw.ch",
-    "passwordHash": "$2a$10$gIBpgSDj9BRilVYOFlj3IuB/LbGUW6/g8pPHY4Sglp5LGy1y4KKCO",
+    "email": "benutzer@localhost",
+    "passwordHash": "$2a$10$U3shc4MIw6eJjHJI9dNHvO20DrMNkdLDLotNda53VTztubro98Xf2",
     "role": "customer",
     "active": true
   }

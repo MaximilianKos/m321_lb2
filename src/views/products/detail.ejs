@@ -4,8 +4,15 @@
 <p><strong>Preis:</strong> <%= product.price %> CHF</p>
 <p><strong>Beschreibung:</strong> <%= product.description %></p>
 <p><strong>Lagerbestand:</strong> <%= product.stock %></p>
-<form action="/cart/add" method="post">
-    <input type="hidden" name="productId" value="<%= product.id %>">
-    <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">In den Warenkorb</button>
-</form>
+<% if (product.stock > 0) { %>
+    <form action="/cart/add" method="post">
+        <input type="hidden" name="productId" value="<%= product.id %>">
+        <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">In den Warenkorb</button>
+    </form>
+<% } else { %>
+    <div class="alert alert-warning" role="alert">
+        Dieser Artikel ist momentan nicht verfügbar.
+    </div>
+<% } %>
+
 <%- include('../partials/footer') %>

@@ -13,11 +13,15 @@
                     - <%= p.price %> CHF
                 </div>
 
-                <!-- Add to Cart Button -->
-                <form action="/cart/add" method="post" style="margin:0;">
-                    <input type="hidden" name="productId" value="<%= p.id %>">
-                    <button type="submit">In den Warenkorb</button>
-                </form>
+                <% if (p.stock > 0) { %>
+                    <!-- Add to Cart Button -->
+                    <form action="/cart/add" method="post" style="margin:0;">
+                        <input type="hidden" name="productId" value="<%= p.id %>">
+                        <button type="submit">In den Warenkorb</button>
+                    </form>
+                <% } else { %>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Ausverkauft</button>
+                <% } %>
             </li>
         <% }); %>
     </ul>

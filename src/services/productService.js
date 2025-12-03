@@ -37,10 +37,19 @@ function deleteProduct(id) {
   productRepository.deleteById(id);
 }
 
+const decreaseStock = (productId, quantity) => {
+    const product = productRepository.findById(productId);
+    if (product) {
+        product.stock = product.stock - quantity;
+        productRepository.save(product);
+    }
+};
+
 module.exports = {
   listProducts,
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  decreaseStock
 };
