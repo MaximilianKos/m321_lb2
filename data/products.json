@@ -1,0 +1,23 @@
+[
+  {
+    "id": "7738a6e7-1e1e-43d5-91dd-60f64a0db7eb",
+    "name": "Schuhe",
+    "description": "Schuhe mit dem TBZ-Logo eingraviert.",
+    "price": "23",
+    "stock": "0"
+  },
+  {
+    "id": "f73e82c0-b74b-4c03-8a39-8b4d1c955df8",
+    "name": "Strohhut",
+    "description": "Jeder der den Hut Kauft ist so dumm wie Stroh weil er viel zu teuer ist ;-)",
+    "price": "450",
+    "stock": "5"
+  },
+  {
+    "id": "8661b21c-2784-4e17-b731-38ae2c48b977",
+    "name": "Trompete",
+    "description": "In den falschen Händen auch Tröte genannt.",
+    "price": "222",
+    "stock": "15"
+  }
+]

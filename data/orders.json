@@ -1,0 +1,53 @@
+[
+  {
+    "id": "6a9ffe64-0772-4562-affc-9d96feac9d9e",
+    "userId": "d0af3e0d-3fa7-4688-9307-37f20b79fff5",
+    "items": [
+      {
+        "productId": "8661b21c-2784-4e17-b731-38ae2c48b977",
+        "name": "Trompete",
+        "price": 222,
+        "quantity": 1
+      },
+      {
+        "productId": "7738a6e7-1e1e-43d5-91dd-60f64a0db7eb",
+        "name": "Schuhe",
+        "price": 23,
+        "quantity": 2
+      }
+    ],
+    "totalAmount": 268,
+    "status": "confirmed",
+    "createdAt": "2025-11-25T15:32:25.484Z"
+  },
+  {
+    "id": "bedd9c97-5174-42e3-ba8b-d18f9314cea1",
+    "userId": "d0af3e0d-3fa7-4688-9307-37f20b79fff5",
+    "items": [
+      {
+        "productId": "f73e82c0-b74b-4c03-8a39-8b4d1c955df8",
+        "name": "Strohhut",
+        "price": 450,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 450,
+    "status": "confirmed",
+    "createdAt": "2025-11-25T15:32:44.134Z"
+  },
+  {
+    "id": "31083354-7052-4caa-896a-16d8c6c224ac",
+    "userId": "d0af3e0d-3fa7-4688-9307-37f20b79fff5",
+    "items": [
+      {
+        "productId": "7738a6e7-1e1e-43d5-91dd-60f64a0db7eb",
+        "name": "Schuhe",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 23,
+    "status": "confirmed",
+    "createdAt": "2025-12-03T09:25:34.199Z"
+  }
+]
