@@ -218,7 +218,7 @@ Jeder Service wird in **mindestens 2 Instanzen** betrieben:
 - Verwenden HTTP/REST
 - JSON als Datenformat
 - Timeouts und Retry-Mechanismen implementieren
-- Circuit Breaker Pattern für Fehlertoleranz (optional)
+- Circuit Breaker Pattern für Fehlertoleranz
 
 **Client → Services:**
 - Authentifizierung: JWT Token im Header `Authorization: Bearer <token>`
@@ -249,8 +249,7 @@ Jeder Service wird in **mindestens 2 Instanzen** betrieben:
 Jedes Teammitglied kann für seinen Service frei wählen:
 - **Programmiersprache:** Node.js (empfohlen für schnelle Migration), Python, Java, etc.
 - **Framework:** Express, Flask, Spring Boot, etc.
-- **Datenbank:** PostgreSQL, MongoDB, MySQL, SQLite (ersetzt JSON-Dateien)
-- **ORM/ODM:** Sequelize, Mongoose, TypeORM, etc. (optional)
+- **Datenbank:** PostgreSQL (ersetzt JSON-Dateien)
 
 ---
 
@@ -283,55 +282,147 @@ Jedes Teammitglied kann für seinen Service frei wählen:
 
 ## 8. Projektplanung / Vorgehen
 
-### Phase 1: Planung und Analyse (Woche 1-2)
+**Gesamtaufwand:** 20 Lektionen pro Person  
+**Verfügbare Termine:** 5 Schultage à 4 Lektionen = 20 Lektionen total  
+**Projektabgabe:** 19.01.2026  
+**Optionale Testing-Abgabe:** 26.01.2026
+
+---
+
+### Lektion 1-4: Montag, 08.12.2025 (Planung & Setup)
+**Aufwand:** 4 Lektionen
+
 - [x] Gruppenbildung und Rollendefinition
 - [x] Monolith-Code analysieren und verstehen
 - [ ] Schnittstellendefinition abstimmen (basierend auf Monolith-Analyse)
 - [ ] Aufteilung der bestehenden Funktionalität auf Services planen
 - [ ] Datenbank-Schema für jeden Service designen (Migration von JSON zu DB)
 - [ ] Technologie-Stack pro Service festlegen
-- [ ] Git-Repositories einrichten (monorepo oder separate repos)
-- [ ] LernMAAS VM Setup
-- [ ] Planung mit Lehrperson besprechen und freigeben lassen
+- [ ] Git-Repository-Struktur festlegen (monorepo oder separate repos)
+- [ ] **Planung mit Lehrperson besprechen und freigeben lassen**
 
-### Phase 2: Migration und Prototyping (Woche 3-4)
-- [ ] HA-Konzepte testen (Load Balancer Setup)
-- [ ] Datenbank-Setup pro Service
-- [ ] Datenmigration von JSON zu Datenbank
-- [ ] JWT-Authentifizierung implementieren (Migration von Session)
-- [ ] Basis-Service-Implementierung:
-  - [ ] Users Service: Register, Login, Validate
-  - [ ] Products Service: List, Get Product
-  - [ ] Orders Service: Cart-Grundfunktionen
-- [ ] Health-Check Endpoints implementieren
+**Ziel Ende Tag 1:** Genehmigte Planung, klare API-Definitionen, jeder kennt seine Aufgaben
 
-### Phase 3: Hauptentwicklung (Woche 5-8)
-- [ ] Vollständige Implementierung aller Services inkl. Admin-Funktionen
-- [ ] Service-zu-Service Kommunikation implementieren
-- [ ] Error Handling und Logging einbauen
-- [ ] Parallele Dokumentation der Komponenten
-- [ ] Code aus Monolith übernehmen und anpassen (Repository-, Service-Layer)
-- [ ] **Zwischenstand-Besprechung mit Lehrperson (ca. Woche 6-7)**
+---
 
-### Phase 4: Integration (Woche 9-10)
-- [ ] Services zusammenführen
-- [ ] End-to-End Testing
-- [ ] HA-Massnahmen implementieren und testen
-- [ ] Bugfixing
+### Lektion 5-8: Montag, 15.12.2025 (Basis-Implementierung)
+**Aufwand:** 4 Lektionen
 
-### Phase 5: Finalisierung (Woche 11-12)
-- [ ] Deployment auf LernMAAS
-- [ ] Dokumentation vervollständigen
+- [ ] LernMAAS VM Setup und Zugriff testen
+- [ ] Git-Repositories einrichten und initialen Code committen
+- [ ] Datenbank-Setup pro Service (lokal und auf VM)
+- [ ] Datenmigration: JSON-Daten in Datenbanken übertragen
+- [ ] JWT-Authentifizierung Grundgerüst implementieren
+- [ ] Basis-Service-Implementierung starten:
+  - [ ] **Users Service (Maximilian):** Register, Login, Token-Validierung
+  - [ ] **Products Service (Rilind):** Produkte auflisten, Details abrufen
+  - [ ] **Orders Service (Davi):** Warenkorb-Grundfunktionen
+- [ ] Health-Check Endpoints (`/health`) für alle Services
+
+**Ziel Ende Tag 2:** Funktionierende Basis-Services mit Datenbank-Anbindung
+
+---
+
+### Lektion 9-12: Montag, 05.01.2026 (Hauptentwicklung)
+**Aufwand:** 4 Lektionen
+
+- [ ] Vollständige API-Implementierung aller Services:
+  - [ ] **Users Service:** Profilverwaltung, Admin-Funktionen (User aktivieren/deaktivieren)
+  - [ ] **Products Service:** CRUD-Operationen, Lagerbestand-Management
+  - [ ] **Orders Service:** Bestellungen erstellen, Bestellhistorie
+- [ ] Service-zu-Service Kommunikation implementieren:
+  - [ ] Orders → Products (Produktinfo, Lagerbestand)
+  - [ ] Orders → Users (Token-Validierung)
+- [ ] Error Handling und einheitliche Fehlerbehandlung
+- [ ] Logging implementieren (JSON-Format mit Timestamps)
+- [ ] **Zwischenstand-Besprechung mit Lehrperson einplanen**
+
+**Ziel Ende Tag 3:** Alle Services funktional vollständig, Service-Kommunikation funktioniert
+
+---
+
+### Lektion 13-16: Montag, 12.01.2026 (HA-Massnahmen & Integration)
+**Aufwand:** 4 Lektionen
+
+- [ ] HA-Konzepte umsetzen:
+  - [ ] Load Balancer Setup (HAProxy oder Nginx)
+  - [ ] Service-Instanzen replizieren (je 2 Instanzen pro Service)
+  - [ ] Health-Monitoring konfigurieren
+  - [ ] Automatisches Failover testen
+- [ ] End-to-End Testing des gesamten Systems
+- [ ] Integration Testing zwischen Services
+- [ ] Bugfixing und Optimierungen
+- [ ] Code-Review und Code-Qualität verbessern
+- [ ] Dokumentation parallel zur Entwicklung pflegen
+
+**Ziel Ende Tag 4:** Hochverfügbares System funktioniert, alle Services integriert
+
+---
+
+### Lektion 17-20: Montag, 19.01.2026 (Finalisierung & Abgabe)
+**Aufwand:** 4 Lektionen
+
+- [ ] Finales Deployment auf LernMAAS
+- [ ] Alle Services auf VM deployen und testen
+- [ ] Load Balancer konfigurieren und testen
+- [ ] Dokumentation vervollständigen:
+  - [ ] Systemübersicht und Architektur
+  - [ ] Jede Person dokumentiert eigene Komponente(n)
+  - [ ] Installationsanleitung
+  - [ ] API-Dokumentation
+  - [ ] Fazit und Ausblick
+- [ ] Demonstration vorbereiten und durchführen
+- [ ] Finale Code-Bereinigung (auskommentierter Code entfernen)
 - [ ] Testing und Qualitätssicherung
-- [ ] Demonstration vorbereiten
-- [ ] Finale Abgabe
+- [ ] **Abgabe: Code + Dokumentation**
+
+**Ziel Ende Tag 5:** Vollständige Abgabe, funktionierendes System auf LernMAAS
+
+---
+
+### Optional: 26.01.2026 (Optionale Testing-Abgabe)
+**Hinweis:** Nur wenn automatisierte Tests für Extrapunkte erstellt werden
+
+- [ ] Testdefinition und Testcases dokumentieren
+- [ ] Testprotokoll erstellen
+- [ ] Automatisierte Tests (Unit-Tests, Integration-Tests)
+- [ ] Testabdeckung erhöhen
+- [ ] Test-Dokumentation abgeben
+
+---
+
+### Meilensteine
+
+| Datum | Meilenstein | Deliverables |
+|-------|-------------|--------------|
+| **08.12.2025** | Planung abgeschlossen | Genehmigte Planung, API-Definitionen |
+| **15.12.2025** | Basis-Services funktional | Login, Produktliste, Warenkorb funktioniert |
+| **05.01.2026** | Alle Features implementiert | Vollständige API, Service-Kommunikation |
+| **12.01.2026** | HA-System funktioniert | Load Balancer, mehrere Instanzen, Failover |
+| **19.01.2026** | **PROJEKT-ABGABE** | Code, Dokumentation, Demonstration |
+| **26.01.2026** | Optional: Testing-Abgabe | Test-Dokumentation, automatisierte Tests |
+
+---
+
+### Aufwandsverteilung pro Person
+
+Jede Person hat **20 Lektionen** für folgende Aufgaben:
+
+| Aktivität | Geschätzte Lektionen |
+|-----------|---------------------|
+| Planung & Analyse | 3-4 Lektionen |
+| Implementierung eigener Service | 8-10 Lektionen |
+| Integration & Testing | 3-4 Lektionen |
+| HA-Massnahmen & Deployment | 2-3 Lektionen |
+| Dokumentation | 2-3 Lektionen |
+| **Total** | **~20 Lektionen** |
 
 ---
 
 ## 9. Git-Repository Links
 
 **Haupt-Repository:**
-- Link: `https://github.com/MaximilianKos/m321_lb2` (wird noch erstellt)
+- Link: `https://github.com/MaximilianKos/m321_lb2`
 
 **Optionale Service-Repositories:**
 - Users Service: TBD
@@ -484,7 +575,6 @@ Jedes Teammitglied kann für seinen Service frei wählen:
 - JWT Token Gültigkeit: 24 Stunden (86400 Sekunden)
 - JWT Secret: Umgebungsvariable `JWT_SECRET` (pro Service oder geteilt)
 - Alle Passwörter werden mit bcrypt gehashed (mind. 10 rounds, wie im Monolith)
-- API-Dokumentation mit Swagger/OpenAPI (optional, aber empfohlen)
 - Logging-Format: JSON mit Timestamp, Service-Name, Log-Level, Request-ID
 
 ### Entwicklungs-Richtlinien
