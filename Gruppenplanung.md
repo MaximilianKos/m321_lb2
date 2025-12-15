@@ -1,7 +1,7 @@
 # Gruppenplanung - M321 LB2
 ## Verteiltes Online-Shop System
 
-**Datum:** 8. Dezember 2025
+**Datum:** 15. Dezember 2025
 
 ---
 
@@ -202,7 +202,7 @@ Jeder Service wird in **mindestens 2 Instanzen** betrieben:
 **Anmerkung:** 
 - Orders Service kommuniziert mit Products Service für Produktinfos und Lagerbestand
 - Orders Service kommuniziert mit Users Service für Token-Validierung
-- Warenkorb wird in-memory oder in DB pro User gespeichert
+- Warenkorb wird in-memory (browser) gespeichert
 
 ### 5.4 Service-zu-Service Kommunikation
 
@@ -421,17 +421,11 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 
 ## 9. Git-Repository Links
 
-**Haupt-Repository:**
+**Repository:**
 - Link: `https://github.com/MaximilianKos/m321_lb2`
-
-**Optionale Service-Repositories:**
-- Users Service: TBD
-- Orders Service: TBD
-- Products Service: TBD
 
 **Branch-Strategie:**
 - `main` - Produktiver/finaler Code
-- `develop` - Entwicklungsbranch
 - `feature/*` - Feature-Branches
 
 ---
@@ -443,12 +437,8 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 ☐ Wir verwenden das Online-Shop-Projekt als Referenz: `https://gitlab.com/ch-tbz-it/Stud/m321/onlineshop-monolith`
 
 ### Details zur Basis-Software
-
-**Projektname:** onlineshop-monolith  
+ 
 **Quelle:** `https://gitlab.com/ch-tbz-it/Stud/m321/onlineshop-monolith` (als Vorlage)  
-**Lokaler Pfad:** `c:\Users\Maximilian\m321_lb2\` (im selben Repository)  
-**Version:** 1.0.0  
-**Lizenz:** Lernprojekt (für Schulungszwecke)
 
 **Technologien der Basis:**
 - Node.js mit Express.js
@@ -482,10 +472,9 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 
 ### Regelmäßige Meetings
 - **Wöchentlich:** Montag, 10:00 Uhr (während Unterricht)
-- **Bei Bedarf:** Ad-hoc via Discord/Teams
 
 ### Kommunikationskanäle
-- **Chat:** Discord/Teams (für schnelle Fragen)
+- **Chat:** Teams (für schnelle Fragen)
 - **Code-Review:** GitHub Pull Requests
 - **Dokumentation:** GitHub Wiki / Shared Docs
 
@@ -590,8 +579,4 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 - Integration Tests: Services zusammen testen
 - Load Balancer Testing: Failover-Szenarien durchspielen
 
----
 
-**Erstellt am:** 8. Dezember 2025  
-**Letzte Aktualisierung:** 8. Dezember 2025  
-**Status:** Entwurf - Wartet auf Freigabe durch Lehrperson
