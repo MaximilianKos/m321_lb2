@@ -32,6 +32,3 @@ logging:
       springframework:
         web: DEBUG
         data: DEBUG
-
-application:
-  config:
