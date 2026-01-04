@@ -1,6 +1,7 @@
 package ch.tbz.products.controllers;
 
 import ch.tbz.products.dto.*;
+import ch.tbz.products.services.AuthService;
 import ch.tbz.products.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class ProductController {
     
     private final ProductService productService;
+    private final AuthService authService;
     
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
@@ -35,24 +37,41 @@ public class ProductController {
     }
     
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request) {
+    public ResponseEntity<ProductResponse> createProduct(
+            @RequestHeader("Authorization") String authHeader,
+            @Valid @RequestBody CreateProductRequest request) {
         log.info("POST /api/products - Creating new product: {}", request.getName());
+        
+        String token = authService.extractToken(authHeader);
+        authService.validateAdminToken(token);
+        
         ProductResponse product = productService.createProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     
     @PutMapping("/{productId}")
     public ResponseEntity<SuccessResponse> updateProduct(
+            @RequestHeader("Authorization") String authHeader,
             @PathVariable UUID productId,
             @Valid @RequestBody UpdateProductRequest request) {
         log.info("PUT /api/products/{} - Updating product", productId);
+        
+        String token = authService.extractToken(authHeader);
+        authService.validateAdminToken(token);
+        
         SuccessResponse response = productService.updateProduct(productId, request);
         return ResponseEntity.ok(response);
     }
     
     @DeleteMapping("/{productId}")
-    public ResponseEntity<SuccessResponse> deleteProduct(@PathVariable UUID productId) {
+    public ResponseEntity<SuccessResponse> deleteProduct(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable UUID productId) {
         log.info("DELETE /api/products/{} - Deleting product", productId);
+        
+        String token = authService.extractToken(authHeader);
+        authService.validateAdminToken(token);
+        
         SuccessResponse response = productService.deleteProduct(productId);
         return ResponseEntity.ok(response);
     }

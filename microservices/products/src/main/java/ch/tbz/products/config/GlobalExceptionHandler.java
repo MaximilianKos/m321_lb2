@@ -4,6 +4,7 @@ import ch.tbz.products.dto.ErrorResponse;
 import ch.tbz.products.exceptions.InsufficientStockException;
 import ch.tbz.products.exceptions.ProductNotFoundException;
 import ch.tbz.products.exceptions.ProductValidationException;
+import ch.tbz.products.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -49,6 +50,17 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+                .error("Unauthorized")
+                .message(ex.getMessage())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

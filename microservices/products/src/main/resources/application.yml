@@ -20,8 +20,14 @@ spring:
             ddl-auto: update
         database-platform: org.hibernate.dialect.PostgreSQLDialect
     cloud:
-      discovery:
-        enabled: false
+        discovery:
+            enabled: false
+        openfeign:
+            client:
+                config:
+                    default:
+                        connectTimeout: 5000
+                        readTimeout: 5000
 
 logging:
     level:
@@ -29,10 +35,12 @@ logging:
             springframework:
                 web: DEBUG
                 data: DEBUG
+        feign: DEBUG
 
-application:
-    config:
+users:
+    service:
+        url: http://localhost:8080
 
 eureka:
-  client:
-    enabled: false
+    client:
+        enabled: false
