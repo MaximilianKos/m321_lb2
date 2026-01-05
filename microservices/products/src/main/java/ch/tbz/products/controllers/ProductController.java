@@ -30,7 +30,7 @@ public class ProductController {
     }
     
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable UUID productId) {
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable("productId") UUID productId) {
         log.info("GET /products/{} - Fetching product details", productId);
         ProductResponse product = productService.getProductById(productId);
         return ResponseEntity.ok(product);
@@ -52,7 +52,7 @@ public class ProductController {
     @PutMapping("/{productId}")
     public ResponseEntity<SuccessResponse> updateProduct(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable UUID productId,
+            @PathVariable("productId") UUID productId,
             @Valid @RequestBody UpdateProductRequest request) {
         log.info("PUT /products/{} - Updating product", productId);
         
@@ -66,7 +66,7 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public ResponseEntity<SuccessResponse> deleteProduct(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable UUID productId) {
+            @PathVariable("productId") UUID productId) {
         log.info("DELETE /products/{} - Deleting product", productId);
         
         String token = authService.extractToken(authHeader);
@@ -77,7 +77,7 @@ public class ProductController {
     }
     
     @GetMapping("/{productId}/stock")
-    public ResponseEntity<StockResponse> checkStock(@PathVariable UUID productId) {
+    public ResponseEntity<StockResponse> checkStock(@PathVariable("productId") UUID productId) {
         log.info("GET /products/{}/stock - Checking stock", productId);
         StockResponse response = productService.checkStock(productId);
         return ResponseEntity.ok(response);
@@ -86,7 +86,7 @@ public class ProductController {
     //internal use
     @PostMapping("/{productId}/decrease")
     public ResponseEntity<SuccessResponse> decreaseStock(
-            @PathVariable UUID productId,
+            @PathVariable("productId") UUID productId,
             @Valid @RequestBody DecreaseStockRequest request) {
         log.info("POST /products/{}/decrease - Decreasing stock by {}", productId, request.getQuantity());
         SuccessResponse response = productService.decreaseStock(productId, request);
