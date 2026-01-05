@@ -567,7 +567,6 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 - Logging-Format: JSON mit Timestamp, Service-Name, Log-Level, Request-ID
 
 ### Entwicklungs-Richtlinien
-- Umgebungsvariablen in `.env` Dateien (nicht committen!)
 - Error Handling: Einheitliche Fehlerstruktur `{error: String, message: String, status: Number}`
 - CORS: Konfiguriert für Cross-Origin Requests zwischen Services
 - Rate Limiting: Optional für Production
@@ -579,4 +578,6 @@ Jede Person hat **20 Lektionen** für folgende Aufgaben:
 - Integration Tests: Services zusammen testen
 - Load Balancer Testing: Failover-Szenarien durchspielen
 
+### Sicherheit (Authentication / Authorization)
+Die Authentifizierung erfolgt über **JWT**: Der **Users Service** stellt beim Login/Registration ein signiertes Token aus. Clients senden dieses Token in jedem Request als `Authorization: Bearer <token>`. **Orders** und **Products** validieren Tokens nicht selbst, sondern rufen dafür den Users Service über `POST /api/users/validate` auf und erhalten `userId` sowie `role`. Zugriff auf geschützte Endpoints wird anhand der Rolle (`admin` / `customer`) umgesetzt; Passwörter werden ausschliesslich als **bcrypt-Hash** gespeichert.
 
