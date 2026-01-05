@@ -2,7 +2,6 @@ package ch.tbz.products.services;
 
 import ch.tbz.products.clients.UsersServiceClient;
 import ch.tbz.products.dto.Role;
-import ch.tbz.products.dto.TokenValidationRequest;
 import ch.tbz.products.dto.ValidationResponse;
 import ch.tbz.products.exceptions.UnauthorizedException;
 import feign.FeignException;
@@ -21,11 +20,7 @@ public class AuthService {
         try {
             log.info("Validating token with Users Service");
             
-            TokenValidationRequest request = TokenValidationRequest.builder()
-                    .token(token)
-                    .build();
-            
-            ValidationResponse response = usersServiceClient.validateToken(request);
+            ValidationResponse response = usersServiceClient.validateToken(token);
             
             log.info("Token validated successfully. UserId: {}, Role: {}", 
                     response.getUserId(), response.getRole());
