@@ -17,7 +17,7 @@ spring:
             auto-commit: true
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: validate
         database-platform: org.hibernate.dialect.PostgreSQLDialect
     cloud:
         discovery:
@@ -33,9 +33,9 @@ logging:
     level:
         org:
             springframework:
-                web: DEBUG
-                data: DEBUG
-        feign: DEBUG
+                web: INFO
+                data: INFO
+        feign: INFO
 
 users:
     service:
