@@ -1,0 +1,46 @@
+server:
+    port: 8070
+spring:
+    application:
+        name: products
+    datasource:
+        url: jdbc:postgresql://localhost:5432/m321_products
+        username: user
+        password: password
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            maximum-pool-size: 15
+            minimum-idle: 5
+            idle-timeout: 30000
+            connection-timeout: 30000
+            max-lifetime: 1800000
+            auto-commit: true
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    cloud:
+        discovery:
+            enabled: false
+        openfeign:
+            client:
+                config:
+                    default:
+                        connectTimeout: 5000
+                        readTimeout: 5000
+
+logging:
+    level:
+        org:
+            springframework:
+                web: INFO
+                data: INFO
+        feign: INFO
+
+users:
+    service:
+        url: http://localhost:8080
+
+eureka:
+    client:
+        enabled: false
