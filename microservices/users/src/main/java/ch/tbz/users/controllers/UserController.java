@@ -1,5 +1,6 @@
 package ch.tbz.users.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -17,65 +18,53 @@ import ch.tbz.users.dto.UserRequest;
 import ch.tbz.users.dto.UserResponse;
 import ch.tbz.users.entities.User;
 import ch.tbz.users.services.UserService;
-import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
+    
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal User currentUser) {
-        try {
-            return ResponseEntity.ok(userService.getUserProfile(currentUser.getId(), currentUser));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<UserResponse> getCurrentUser(@AuthenticationPrincipal User currentUser) {
+        UserResponse response = userService.getUserProfile(currentUser.getId(), currentUser);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAllUsers(@AuthenticationPrincipal User currentUser) {
-        try {
-            return ResponseEntity.ok(userService.getAllUsers(currentUser));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<List<UserResponse>> getAllUsers(@AuthenticationPrincipal User currentUser) {
+        List<UserResponse> users = userService.getAllUsers(currentUser);
+        return ResponseEntity.ok(users);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable UUID id, @RequestBody UserRequest userRequest,
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable UUID id, 
+            @Valid @RequestBody UserRequest userRequest,
             @AuthenticationPrincipal User currentUser) {
-        try {
-            UserResponse userResponse = userService.updateUser(id, userRequest, currentUser);
-            return ResponseEntity.ok(userResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        UserResponse userResponse = userService.updateUser(id, userRequest, currentUser);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/{id}/activate")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> activateUser(@PathVariable UUID id,
+    public ResponseEntity<UserResponse> activateUser(
+            @PathVariable UUID id,
             @AuthenticationPrincipal User currentUser) {
-        try {
-            UserResponse userResponse = userService.setUserActive(id, true, currentUser);
-            return ResponseEntity.ok(userResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        UserResponse userResponse = userService.setUserActive(id, true, currentUser);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/{id}/deactivate")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deactivateUser(@PathVariable UUID id,
+    public ResponseEntity<UserResponse> deactivateUser(
+            @PathVariable UUID id,
             @AuthenticationPrincipal User currentUser) {
-        try {
-            UserResponse userResponse = userService.setUserActive(id, false, currentUser);
-            return ResponseEntity.ok(userResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        UserResponse userResponse = userService.setUserActive(id, false, currentUser);
+        return ResponseEntity.ok(userResponse);
     }
 }
