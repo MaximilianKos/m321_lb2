@@ -81,9 +81,6 @@ public class UserService {
         }
 
         if (StringUtils.hasText(userRequest.getPassword())) {
-            if (userRequest.getPassword().length() < 6) {
-                throw new IllegalArgumentException("Password must be at least 6 characters");
-            }
             targetUser.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
             log.debug("Updated password for user {}", targetUserId);
         }
