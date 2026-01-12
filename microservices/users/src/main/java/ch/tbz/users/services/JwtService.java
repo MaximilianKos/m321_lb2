@@ -6,23 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import ch.tbz.users.entities.User;
+import ch.tbz.users.exceptions.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class JwtService {
 
     @Value("${jwt.secret-key}")
@@ -31,36 +30,44 @@ public class JwtService {
     @Value("${jwt.expiration-time}")
     private long EXPIRATION_TIME;
 
-    public String extractClaim(String token) {
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
+    private String stripBearerPrefix(String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7);
         }
+        return token;
+    }
+
+    public String extractClaim(String token) {
+        token = stripBearerPrefix(token);
         return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
+        token = stripBearerPrefix(token);
         try {
             final Claims claims = extractAllClaims(token);
             return claimsResolver.apply(claims);
         } catch (ExpiredJwtException e) {
-            throw new RuntimeException("Token expired");
+            log.warn("Token has expired");
+            throw new InvalidTokenException("Token has expired");
         } catch (JwtException e) {
-            throw new RuntimeException("Invalid token");
+            log.error("Invalid token: {}", e.getMessage());
+            throw new InvalidTokenException("Invalid token");
         }
     }
 
     public String generateToken(User userDetails) {
+        log.debug("Generating token for user: {}", userDetails.getId());
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("userId", userDetails.getId().toString());
         extraClaims.put("role", userDetails.getRole().name());
         return buildToken(extraClaims, userDetails.getEmail(), EXPIRATION_TIME);
     }
 
-    String buildToken(Map<String, Object> extraClaims, String subject, long expiration) {
-        return Jwts.builder().claims(extraClaims).subject(subject)
+    private String buildToken(Map<String, Object> extraClaims, String subject, long expiration) {
+        return Jwts.builder()
+                .claims(extraClaims)
+                .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
@@ -70,20 +77,19 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         try {
             Claims claims = extractAllClaims(token);
-            final Date expiration = claims.getExpiration();
-            return expiration.after(new Date());
+            return claims.getExpiration().after(new Date());
         } catch (JwtException | IllegalArgumentException e) {
+            log.debug("Token validation failed: {}", e.getMessage());
             return false;
         }
     }
 
-    Claims extractAllClaims(String token) {
-        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
-    }
-
-    private SecretKey getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY)))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private Key getSignInKey() {
