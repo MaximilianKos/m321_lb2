@@ -23,11 +23,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Public authentication endpoints
                         .requestMatchers("/auth/register", "/auth/login", "/auth/validate").permitAll()
-
-                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-
-                        // everything else locked dow
+                        
+                        // Public endpoints
+                        .requestMatchers("/actuator/health", "/actuator/info", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        
+                        // All other endpoints require authentication
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
