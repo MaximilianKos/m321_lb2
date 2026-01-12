@@ -33,9 +33,9 @@ logging:
     level:
         org:
             springframework:
-                web: INFO
-                data: INFO
-        feign: INFO
+                web: DEBUG
+                data: DEBUG
+        feign: DEBUG
 
 users:
     service:

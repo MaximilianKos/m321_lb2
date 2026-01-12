@@ -98,20 +98,13 @@ public class ProductService {
     }
     
     @Transactional
-    public SuccessResponse deleteProduct(UUID productId) {
+        public void deleteProduct(UUID productId) {
         log.info("Deleting product with ID: {}", productId);
-        
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
-        
+            .orElseThrow(() -> new ProductNotFoundException(productId));
         productRepository.delete(product);
         log.info("Product deleted successfully: {}", productId);
-        
-        return SuccessResponse.builder()
-                .success(true)
-                .message("Product deleted successfully")
-                .build();
-    }
+        }
     
     public StockResponse checkStock(UUID productId) {
         log.info("Checking stock for product ID: {}", productId);
