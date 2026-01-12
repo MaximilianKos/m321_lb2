@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
@@ -24,14 +24,14 @@ public class ProductController {
     
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        log.info("GET /products - Fetching all products");
+        log.info("GET /api/products - Fetching all products");
         List<ProductResponse> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
     
     @GetMapping("/{productId}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable("productId") UUID productId) {
-        log.info("GET /products/{} - Fetching product details", productId);
+        log.info("GET /api/products/{} - Fetching product details", productId);
         ProductResponse product = productService.getProductById(productId);
         return ResponseEntity.ok(product);
     }
@@ -40,7 +40,7 @@ public class ProductController {
     public ResponseEntity<ProductResponse> createProduct(
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody CreateProductRequest request) {
-        log.info("POST /products - Creating new product: {}", request.getName());
+        log.info("POST /api/products - Creating new product: {}", request.getName());
         
         String token = authService.extractToken(authHeader);
         authService.validateAdminToken(token);
@@ -54,7 +54,7 @@ public class ProductController {
             @RequestHeader("Authorization") String authHeader,
             @PathVariable("productId") UUID productId,
             @Valid @RequestBody UpdateProductRequest request) {
-        log.info("PUT /products/{} - Updating product", productId);
+        log.info("PUT /api/products/{} - Updating product", productId);
         
         String token = authService.extractToken(authHeader);
         authService.validateAdminToken(token);
@@ -64,21 +64,21 @@ public class ProductController {
     }
     
     @DeleteMapping("/{productId}")
-    public ResponseEntity<SuccessResponse> deleteProduct(
+    public ResponseEntity<Void> deleteProduct(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable("productId") UUID productId) {
-        log.info("DELETE /products/{} - Deleting product", productId);
+        log.info("DELETE /api/products/{} - Deleting product", productId);
         
         String token = authService.extractToken(authHeader);
         authService.validateAdminToken(token);
         
-        SuccessResponse response = productService.deleteProduct(productId);
-        return ResponseEntity.ok(response);
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
     }
     
     @GetMapping("/{productId}/stock")
     public ResponseEntity<StockResponse> checkStock(@PathVariable("productId") UUID productId) {
-        log.info("GET /products/{}/stock - Checking stock", productId);
+        log.info("GET /api/products/{}/stock - Checking stock", productId);
         StockResponse response = productService.checkStock(productId);
         return ResponseEntity.ok(response);
     }
@@ -88,7 +88,7 @@ public class ProductController {
     public ResponseEntity<SuccessResponse> decreaseStock(
             @PathVariable("productId") UUID productId,
             @Valid @RequestBody DecreaseStockRequest request) {
-        log.info("POST /products/{}/decrease - Decreasing stock by {}", productId, request.getQuantity());
+        log.info("POST /api/products/{}/decrease - Decreasing stock by {}", productId, request.getQuantity());
         SuccessResponse response = productService.decreaseStock(productId, request);
         return ResponseEntity.ok(response);
     }
