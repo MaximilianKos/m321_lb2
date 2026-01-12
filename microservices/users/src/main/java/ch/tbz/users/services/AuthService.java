@@ -116,9 +116,10 @@ public class AuthService {
         } catch (ExpiredJwtException e) {
             log.warn("Token validation failed - expired JWT");
             throw new InvalidTokenException("Token has expired");
-        } catch (InvalidTokenException e) {
-            throw e;
         } catch (Exception e) {
+            if (e instanceof InvalidTokenException) {
+                throw (InvalidTokenException) e;
+            }
             log.error("Token validation failed with unexpected error", e);
             throw new InvalidTokenException("Invalid token");
         }
